@@ -59,11 +59,11 @@ public:
             //checks if the current position is the value
             if (current->data == value) {
                 //returns if found
-                return current->data;
+                return true;
             }
             if (current->next == nullptr) {
                 // if not found prints error
-                std::cout << "ERROR DATA DOES NOT EXIST" << std::endl;
+                return false;
             }
             current = current -> next;
         }
@@ -85,12 +85,13 @@ public:
         Node *current = head;
         while (current != nullptr) {
             Node *nextNode = current->next;  // store the next node
-            delete current;                   // delete the current node
-            current = nextNode;               // move to the next node
+            delete current;                  // delete the current node
+            current = nextNode;              // move to the next node
         }
         head = nullptr;  // after deletion, set head to nullptr to avoid dangling pointers
         tail = nullptr;  // also set tail to nullptr, as the list is now empty
     }
+
 
 
     void pop() {
@@ -99,25 +100,42 @@ public:
             Node *nextNode = current->previous;
             delete current;
             current = nextNode;
-
-
         }
+        head = nullptr;
+        tail = nullptr;
     }
 
 
     void remove(int position) {
+        if (position < 1 || head == nullptr) {
+            std::cout << "ERROR: POSITION DOES NOT EXIST" << std::endl;
+            return;
+        }
+
         Node *current = head;
-        for (int i = 0; i < position; i++) {
-            std::cout << i << std::endl;
+        for (int i = 1; current != nullptr && i < position; i++) {
             current = current->next;
         }
-        if (current == nullptr) {
-            std::cout << "ERROR POSITION DOES NOT EXIST" << std::endl;
 
+        if (current == nullptr) {
+            std::cout << "ERROR: POSITION DOES NOT EXIST" << std::endl;
+            return;
         }
-        else {
-            delete current;
+
+        // Update the pointers of the adjacent nodes
+        if (current->previous != nullptr) {
+            current->previous->next = current->next;
+        } else {
+            head = current->next; // Update head if deleting the first node
         }
+
+        if (current->next != nullptr) {
+            current->next->previous = current->previous;
+        } else {
+            tail = current->previous; // Update tail if deleting the last node
+        }
+
+        delete current;
     }
 
         private:
@@ -139,8 +157,13 @@ int main() {
     for (int i = 1; i <= 10; i++) {
         list.append(i);
     }
+    list.printList();
 
-    list.remove(1);
+    list.push();
+
+    list.remove(0);
+    list.remove(4);
+    list.remove(9);
     list.printList();
 
 
