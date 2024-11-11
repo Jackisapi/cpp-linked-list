@@ -13,7 +13,8 @@ public:
         tail = nullptr;
     }
 
-    void createNode(int value)
+
+    void append(int value)
     {
         //Creates the "box"/node for value to be in
 
@@ -38,6 +39,7 @@ public:
         }
     }
 
+
     void printList() {
         //Fetches the front facing car
         Node *current = head;
@@ -47,6 +49,7 @@ public:
             current = current->next;
         }
     }
+
 
     int index_node(int value) {
         //Starts at the head
@@ -66,6 +69,7 @@ public:
         }
     }
 
+
     int len() {
         Node *current = head;
         int length = 0;
@@ -75,6 +79,7 @@ public:
         }
         return length;
     }
+
 
     void push() {
         Node *current = head;
@@ -86,6 +91,8 @@ public:
         head = nullptr;  // after deletion, set head to nullptr to avoid dangling pointers
         tail = nullptr;  // also set tail to nullptr, as the list is now empty
     }
+
+
     void pop() {
         Node*current  = tail;
         while (current != nullptr) {
@@ -93,9 +100,25 @@ public:
             delete current;
             current = nextNode;
 
+
         }
     }
 
+
+    void remove(int position) {
+        Node *current = head;
+        for (int i = 0; i < position; i++) {
+            std::cout << i << std::endl;
+            current = current->next;
+        }
+        if (current == nullptr) {
+            std::cout << "ERROR POSITION DOES NOT EXIST" << std::endl;
+
+        }
+        else {
+            delete current;
+        }
+    }
 
         private:
         //Defines the "box"/node
@@ -114,10 +137,13 @@ public:
 int main() {
     LinkedList list;
     for (int i = 1; i <= 10; i++) {
-        list.createNode(i);
+        list.append(i);
     }
+
+    list.remove(1);
     list.printList();
-    list.pop();
+
+
     return 0;
 }
 
