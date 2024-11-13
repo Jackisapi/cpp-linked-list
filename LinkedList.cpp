@@ -105,38 +105,26 @@ public:
         tail = nullptr;
     }
 
-
-    void remove(int position) {
-        if (position < 1 || head == nullptr) {
-            std::cout << "ERROR: POSITION DOES NOT EXIST" << std::endl;
-            return;
+    void removeNode(int position) {
+        if (position == 1) {  // Special case for head removal
+            Node* temp = head;
+            head = head->next;
+            int data = temp->data;
+            delete temp;
         }
 
-        Node *current = head;
-        for (int i = 1; current != nullptr && i < position; i++) {
+        Node* current = head;
+        for (int i = 1; i != position; i++) {  // Stop at the node before the target
             current = current->next;
         }
 
-        if (current == nullptr) {
-            std::cout << "ERROR: POSITION DOES NOT EXIST" << std::endl;
-            return;
-        }
+        Node* toDelete = current->next;  // The node we want to remove
+        current->next = toDelete->next;  // Update the pointer to skip the node
+        int data = toDelete->data;       // Store the data to return
+        delete toDelete;                 // Delete the target node
 
-        // Update the pointers of the adjacent nodes
-        if (current->previous != nullptr) {
-            current->previous->next = current->next;
-        } else {
-            head = current->next; // Update head if deleting the first node
-        }
-
-        if (current->next != nullptr) {
-            current->next->previous = current->previous;
-        } else {
-            tail = current->previous; // Update tail if deleting the last node
-        }
-
-        delete current;
     }
+
 
         private:
         //Defines the "box"/node
@@ -157,15 +145,10 @@ int main() {
     for (int i = 1; i <= 10; i++) {
         list.append(i);
     }
+    list.removeNode(1);
+    list.removeNode(1);
+    list.removeNode(1);
     list.printList();
-
-    list.push();
-
-    list.remove(0);
-    list.remove(4);
-    list.remove(9);
-    list.printList();
-
 
     return 0;
 }
