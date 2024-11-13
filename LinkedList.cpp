@@ -105,25 +105,51 @@ public:
         tail = nullptr;
     }
 
-    void removeNode(int position) {
-        if (position == 1) {  // Special case for head removal
-            Node* temp = head;
-            head = head->next;
-            int data = temp->data;
-            delete temp;
+
+    // Chatgippity made this Imma just comment it (i got stuck for like a week)
+    int removeNode(int position) {
+        // checks if a position is there
+        if (position < 1 || position > len()) {
+            std::cerr << "Position out of range" << std::endl;
+            return -1;
         }
 
+        // checks to see if you are trying to remove the head
+        if (position == 1) {
+            Node* temp = head;
+            head = head->next;
+            if (head != nullptr) {  // moves the current head
+                head->previous = nullptr; //set the previous head as nullptr
+            } else {
+                tail = nullptr;  // if the list is deleted set tail to nullprt
+            }
+            int data = temp->data;
+            delete temp;
+            return data;
+        }
+
+        // Traverse to the node before the one to be removed
         Node* current = head;
-        for (int i = 1; i != position; i++) {  // Stop at the node before the target
+        for (int i = 1; i < position - 1; i++) {
             current = current->next;
         }
 
-        Node* toDelete = current->next;  // The node we want to remove
-        current->next = toDelete->next;  // Update the pointer to skip the node
-        int data = toDelete->data;       // Store the data to return
-        delete toDelete;                 // Delete the target node
+        // Target node to delete
+        Node* toDelete = current->next;
+        int data = toDelete->data;
 
+        // Adjust pointers
+        current->next = toDelete->next;
+        if (toDelete->next != nullptr) {
+            toDelete->next->previous = current;
+        } else {
+            tail = current;  // Update tail if last node is removed
+        }
+
+        delete toDelete;
+        return data;
     }
+
 
 
         private:
@@ -146,9 +172,8 @@ int main() {
         list.append(i);
     }
     list.removeNode(1);
-    list.removeNode(1);
-    list.removeNode(1);
     list.printList();
+
 
     return 0;
 }
