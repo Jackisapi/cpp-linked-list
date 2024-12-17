@@ -105,51 +105,38 @@ public:
         tail = nullptr;
     }
 
+    void removeNode(int value) {
+        Node *current = head;
+        // Transverse the list
+        while (current) {
+            // checks if it is the value to be removed
+            if (current->data == value) {
+                if (current == head) {
+                    //adjusts the head if it's the head
+                    head = current->next;
+                    if (head) {
+                        head->previous = nullptr;
+                    }
+                }
+                //adjusts the tail if its the tail
+                else if (current == tail) {
+                    tail = current->previous;
+                    if (tail) {
+                        tail->next = nullptr;
+                    }
+                }
+                // adjusts the current if its in the middle
+                else {
+                    current->previous->next = current->next;
+                    current->next->previous = current->previous;
+                }
+                // Deletes the current node
+                delete current;
+                return;
 
-    // Chatgippity made this Imma just comment it (i got stuck for like a week)
-    int removeNode(int position) {
-        // checks if a position is there
-        if (position < 1 || position > len()) {
-            std::cerr << "Position out of range" << std::endl;
-            return -1;
-        }
-
-        // checks to see if you are trying to remove the head
-        if (position == 1) {
-            Node* temp = head;
-            head = head->next;
-            if (head != nullptr) {  // moves the current head
-                head->previous = nullptr; //set the previous head as nullptr
-            } else {
-                tail = nullptr;  // if the list is deleted set tail to nullprt
             }
-            int data = temp->data;
-            delete temp;
-            return data;
         }
-
-        // Traverse to the node before the one to be removed
-        Node* current = head;
-        for (int i = 1; i < position - 1; i++) {
-            current = current->next;
-        }
-
-        // Target node to delete
-        Node* toDelete = current->next;
-        int data = toDelete->data;
-
-        // Adjust pointers
-        current->next = toDelete->next;
-        if (toDelete->next != nullptr) {
-            toDelete->next->previous = current;
-        } else {
-            tail = current;  // Update tail if last node is removed
-        }
-
-        delete toDelete;
-        return data;
     }
-
 
 
         private:
@@ -173,7 +160,6 @@ int main() {
     }
     list.removeNode(1);
     list.printList();
-
 
     return 0;
 }
