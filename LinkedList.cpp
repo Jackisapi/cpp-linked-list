@@ -1,166 +1,121 @@
-//
-// Created by jack on 11/2/24.
-//
+#include "LinkedList.h"
 #include <iostream>
 
-class LinkedList {
-public:
-    LinkedList()
-    {
-        //Start of List (front of train)
-        head = nullptr;
-        //End of List (back of train)
-        tail = nullptr;
+// Constructor
+LinkedList::LinkedList() {
+    // Start of List (front of train)
+    head = nullptr;
+    // End of List (back of train)
+    tail = nullptr;
+}
+
+// Appends a new node to the end of the list
+void LinkedList::append(int value) {
+    // Creates the "box"/node for value to be in
+    Node *temp = new Node;
+
+    // Puts value in the box
+    temp->data = value;
+    temp->next = nullptr;
+    temp->previous = tail;
+
+    // Checks if the train has no cars/nodes
+    if (head == nullptr) {
+        head = temp;
+        tail = temp;
     }
-
-
-    void append(int value)
-    {
-        //Creates the "box"/node for value to be in
-
-        Node *temp = new Node;
-
-        //puts val in the box
-        temp->data = value;
-        temp->next = nullptr;
-        temp->previous = tail;
-
-        // Checks if the train has no cars/nodes
-        if (head == nullptr)
-        {
-            head = temp;
-            tail = temp;
-        }
-        //adds more cars/nodes  to the train
-        else
-        {
-            tail -> next = temp;
-            tail = temp;
-        }
+    // Adds more cars/nodes to the train
+    else {
+        tail->next = temp;
+        tail = temp;
     }
+}
 
+// Prints the list from head to tail
+void LinkedList::printList() {
+    // Fetches the front-facing car
+    Node *current = head;
+    // Until it reaches the end, print each box
+    while (current != nullptr) {
+        std::cout << current->data << std::endl;
+        current = current->next;
+    }
+}
 
-    void printList() {
-        //Fetches the front facing car
-        Node *current = head;
-        // until it reaches the end print each box
-        while (current != nullptr) {
-            std::cout << current->data << std::endl;
+// Removes a node with the specified value
+void LinkedList::removeNode(int value) {
+    Node *current = head;
+    // Traverse the list
+    while (current) {
+        // Checks if it is the value to be removed
+        if (current->data == value) {
+            if (current == head) {
+                // Adjusts the head if it's the head
+                head = current->next;
+                if (head) {
+                    head->previous = nullptr;
+                }
+            }
+            // Adjusts the tail if it's the tail
+            else if (current == tail) {
+                tail = current->previous;
+                if (tail) {
+                    tail->next = nullptr;
+                }
+            }
+            // Adjusts the current if it's in the middle
+            else {
+                current->previous->next = current->next;
+                current->next->previous = current->previous;
+            }
+            // Deletes the current node
+            delete current;
+            return;
+        } else {
             current = current->next;
         }
     }
-
-
-    int index_node(int value) {
-        //Starts at the head
-        Node *current = head;
-        //While not at the tail
-        while (current != nullptr) {
-            //checks if the current position is the value
-            if (current->data == value) {
-                //returns if found
-                return true;
-            }
-            if (current->next == nullptr) {
-                // if not found prints error
-                return false;
-            }
-            current = current -> next;
-        }
-    }
-
-
-    int len() {
-        Node *current = head;
-        int length = 0;
-        while (current != nullptr) {
-            length++;
-            current = current -> next;
-        }
-        return length;
-    }
-
-
-    void push() {
-        Node *current = head;
-        while (current != nullptr) {
-            Node *nextNode = current->next;  // store the next node
-            delete current;                  // delete the current node
-            current = nextNode;              // move to the next node
-        }
-        head = nullptr;  // after deletion, set head to nullptr to avoid dangling pointers
-        tail = nullptr;  // also set tail to nullptr, as the list is now empty
-    }
-
-
-
-    void pop() {
-        Node*current  = tail;
-        while (current != nullptr) {
-            Node *nextNode = current->previous;
-            delete current;
-            current = nextNode;
-        }
-        head = nullptr;
-        tail = nullptr;
-    }
-
-    void removeNode(int value) {
-        Node *current = head;
-        // Transverse the list
-        while (current) {
-            // checks if it is the value to be removed
-            if (current->data == value) {
-                if (current == head) {
-                    //adjusts the head if it's the head
-                    head = current->next;
-                    if (head) {
-                        head->previous = nullptr;
-                    }
-                }
-                //adjusts the tail if its the tail
-                else if (current == tail) {
-                    tail = current->previous;
-                    if (tail) {
-                        tail->next = nullptr;
-                    }
-                }
-                // adjusts the current if its in the middle
-                else {
-                    current->previous->next = current->next;
-                    current->next->previous = current->previous;
-                }
-                // Deletes the current node
-                delete current;
-                return;
-
-            }
-        }
-    }
-
-
-        private:
-        //Defines the "box"/node
-        struct Node {
-            //What the box contains
-            int data;
-            //Where it is positioned
-            Node* next;
-            Node* previous;
-        };
-        // Creates the front and back boxes
-        Node *head;
-        Node *tail;
-    };
-
-int main() {
-    LinkedList list;
-    for (int i = 1; i <= 10; i++) {
-        list.append(i);
-    }
-    list.removeNode(1);
-    list.printList();
-
-    return 0;
 }
 
+// Returns the length of the list
+int LinkedList::len() {
+    Node *current = head;
+    int length = 0;
+    while (current != nullptr) {
+        length++;
+        current = current->next;
+    }
+    return length;
+}
+
+// Deletes all nodes starting from the head (front of the train)
+void LinkedList::push() {
+    Node *current = head;
+    while (current != nullptr) {
+        // Stores the next car
+        Node *nextNode = current->next;
+        // Removes the current car
+        delete current;
+        // Moves to the next car
+        current = nextNode;
+    }
+    // After deletion, set the head and tail to nullptr
+    head = nullptr;
+    tail = nullptr;
+}
+
+// Deletes all nodes starting from the tail (back of the train)
+void LinkedList::pop() {
+    Node *current = tail;
+    while (current != nullptr) {
+        // Stores the previous car
+        Node *prevNode = current->previous;
+        // Removes the current car
+        delete current;
+        // Moves to the previous car
+        current = prevNode;
+    }
+    // After deletion, set the head and tail to nullptr
+    head = nullptr;
+    tail = nullptr;
+}
