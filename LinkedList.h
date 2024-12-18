@@ -28,6 +28,9 @@ public:
     // Deletes all nodes starting from the tail
     void pop();
 
+    // A simple bubble sort (INDEV)
+    void sort();
+
 private:
     // Defines the "box"/node
     struct Node {

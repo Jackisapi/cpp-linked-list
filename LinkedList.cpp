@@ -136,3 +136,18 @@ void LinkedList::pop() {
     head = nullptr;
     tail = nullptr;
 }
+
+void LinkedList::sort() {
+    for (int i = 1; i < len(); i++) {
+        Node *current = head;
+        for (int j = 0; j < len() - i; j++) {
+            if (current->data > current->next->data){
+                int temp = current->data;
+                current->data = current->next->data;
+                current->next->data = temp;
+            current = current->next;
+            }
+
+        }
+    }
+}
