@@ -13,6 +13,9 @@ public:
     // Prints all nodes in the list
     void printList();
 
+    // Finds the index of a node with the specified value
+    int index_node(int value);
+
     // Removes a node with the specified value
     void removeNode(int value);
 

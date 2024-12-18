@@ -42,11 +42,28 @@ void LinkedList::printList() {
     }
 }
 
+// Finds the index of a node with the specified value
+int LinkedList::index_node(int value) {
+    // Starts at the head
+    Node *current = head;
+    int index = 0;
+    // Traverse the list
+    while (current != nullptr) {
+        // Checks if the current position matches the value
+        if (current->data == value) {
+            return index;  // Returns the index if found
+        }
+        current = current->next;
+        index++;
+    }
+    return -1;  // Returns -1 if the value is not found
+}
+
 // Removes a node with the specified value
 void LinkedList::removeNode(int value) {
     Node *current = head;
     // Traverse the list
-    while (current) {
+    while (current != nullptr) {
         // Checks if it is the value to be removed
         if (current->data == value) {
             if (current == head) {
@@ -71,11 +88,11 @@ void LinkedList::removeNode(int value) {
             // Deletes the current node
             delete current;
             return;
-        } else {
-            current = current->next;
         }
+        current = current->next;  // Continue traversing
     }
 }
+
 
 // Returns the length of the list
 int LinkedList::len() {
