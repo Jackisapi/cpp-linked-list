@@ -38,6 +38,5 @@ int main() {
     list.printList();
 
 
-
     return 0;
 }
