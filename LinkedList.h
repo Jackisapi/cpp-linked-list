@@ -14,7 +14,7 @@ public:
     void printList();
 
     // Finds the index of a node with the specified value
-    int index_node(int value);
+    int fetch_node(int value);
 
     // Removes a node with the specified value
     void removeNode(int value);
@@ -28,8 +28,11 @@ public:
     // Deletes all nodes starting from the tail
     void pop();
 
-    // A simple bubble sort (INDEV)
+    // A simple bubble sort
     void sort();
+
+    //fetches a node off of position
+    int index_node(int pos);
 
 private:
     // Defines the "box"/node

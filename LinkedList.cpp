@@ -54,7 +54,7 @@ void LinkedList::printList() {
 }
 
 // Finds the index of a node with the specified value
-int LinkedList::index_node(int value) {
+int LinkedList::fetch_node(int value) {
     // Starts at the head
     Node *current = head;
     int index = 0;
@@ -116,6 +116,7 @@ int LinkedList::len() {
     return length;
 }
 
+
 // Deletes all nodes starting from the head (front of the train)
 void LinkedList::push() {
     Node *current = head;
@@ -149,16 +150,29 @@ void LinkedList::pop() {
 }
 
 void LinkedList::sort() {
+    // for each item in the list
     for (int i = 1; i < len(); i++) {
         Node *current = head;
+        // for each item in the list two electric boogaloo
         for (int j = 0; j < len() - i; j++) {
+            // checks to see if the data currently selected is bigger than the next node
             if (current->data > current->next->data){
+                // if it is they swap
                 int temp = current->data;
                 current->data = current->next->data;
                 current->next->data = temp;
             current = current->next;
             }
-
         }
     }
+}
+
+int LinkedList::index_node(int pos) {
+    Node *current = head;
+    // moves pointer to the position required
+    for (int i = 0; i != pos; i++) {
+        current = current->next;
+    }
+    //returns the data at that positon
+    return current->data;
 }
