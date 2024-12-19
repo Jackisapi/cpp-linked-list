@@ -1,6 +1,7 @@
 #include "LinkedList.h"
 #include <iostream>
 
+
 // Constructor
 LinkedList::LinkedList() {
     // Start of List (front of train)
@@ -34,11 +35,21 @@ void LinkedList::append(int value) {
 // Prints the list from head to tail
 void LinkedList::printList() {
     // Fetches the front-facing car
-    Node *current = head;
     // Until it reaches the end, print each box
-    while (current != nullptr) {
-        std::cout << current->data << std::endl;
-        current = current->next;
+    // Checks to see if the list is empty to prevent SEGFAULT
+    if (LinkedList::len() != 0){
+        Node *current = head;
+        std::cout << "[";
+        for (int i = 1; i <= LinkedList::len() -1 ; i++) {
+            std::cout << current->data;
+            std::cout << " -> ";
+            current = current->next;
+        }
+        std::cout << current->data;
+        std::cout << "]" << std::endl;
+    }else {
+        // If empty print a empty list
+        std::cout << "[ ]"<< std::endl;
     }
 }
 
