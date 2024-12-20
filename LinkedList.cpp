@@ -117,37 +117,38 @@ int LinkedList::len() {
 }
 
 
-// Deletes all nodes starting from the head (front of the train)
+// Deletes node that is currently at the head (front of train)
 void LinkedList::push() {
     Node *current = head;
-    while (current != nullptr) {
-        // Stores the next car
-        Node *nextNode = current->next;
-        // Removes the current car
-        delete current;
-        // Moves to the next car
-        current = nextNode;
-    }
-    // After deletion, set the head and tail to nullptr
-    head = nullptr;
-    tail = nullptr;
+    head = current->next;
+    delete current;
 }
 
-// Deletes all nodes starting from the tail (back of the train)
+// Deletes node that is currently at the tail (back of the train)
 void LinkedList::pop() {
-    Node *current = tail;
-    while (current != nullptr) {
-        // Stores the previous car
-        Node *prevNode = current->previous;
-        // Removes the current car
-        delete current;
-        // Moves to the previous car
-        current = prevNode;
+    if (tail == nullptr) {
+        // checks if the list is empty
+    }else {
+        Node *current = tail;
+        tail = current->previous;
+
     }
-    // After deletion, set the head and tail to nullptr
-    head = nullptr;
-    tail = nullptr;
+
+    Node *current = tail;
+    // goes to current tail
+    tail = current->previous; // moves tail down
+
+    if (tail != nullptr) {
+        tail->next = nullptr; // Ensure the new tail has no next node
+
+    } else {
+        // If the list becomes empty, set head to nullptr as well
+        head = nullptr;
+    }
+
+    delete current; // Delete the old tail node
 }
+
 
 void LinkedList::sort() {
     // for each item in the list
